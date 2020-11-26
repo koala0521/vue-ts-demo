@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-26 14:54:27
+ * @LastEditTime: 2020-11-26 18:14:03
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/views/Home.vue
 -->
@@ -17,39 +17,43 @@
 				placeholder="What needs to be done?"
 				autofocus
 			/>
+			<input class="toggle-all" type="checkbox" :checked="checkedAll" />
+			<label for="toggle-all" @click="toggleAll"
+				>Mark all as complete</label
+			>			
 		</header>
 		<!--  -->
-		<section class="main" v-if="todos.length">
-			<input class="toggle-all" type="checkbox" @change="toggleAll" />
-			<label for="toggle-all" 
-				>Mark all as complete</label
-			>
+		<section class="main" v-show="todos.length">
+
 			<ul class="todo-list">
 
-				<div v-for="(todo, index) in todosInView">
+				<template v-for="(todo, index) in curTodos">
 					<todo-item
 						:todo="todo"
 						@toggleCompleted="toggleCompleted( todo )"
 						@removeSelf="removeTodo(index)"
 					/>
-				</div>
+				</template>
 			</ul>
 		</section>
-		<!--  -->
-		<!-- <todo-footer
-			v-if="todos.length"
-			:itemsLeft="remaining.length"
-			:currentView="currentView"
-			:clearCompleted="clearCompleted"
-		/> -->
+		<!-- 底部 -->
+		<template v-show="todos.length" >
+			<todo-footer
+				v-if="todos.length"
+				:itemsLeft="remaining.length"
+				:currentView.sync="currentView"
+				@clearCompleted="clearCompleteds"
+			/>
+		</template>
+
 	</section>
 </template>
 
 <script lang="ts">
 
-import { Component, Provide , Emit, Ref, Vue } from 'vue-property-decorator';
-import todoFooter from '@/components/Todo-footer.vue'; // @ is an alias to /src
-import todoItem from '@/components/Todo-item.vue'; // @ is an alias to /src
+import { Component, Provide , Emit, Ref, Watch, Vue } from 'vue-property-decorator';
+import todoFooter from '@/components/Footer.vue'; // @ is an alias to /src
+import todoItem from '@/components/Item.vue'; // @ is an alias to /src
 
 
 // interface 声明数据格式 = 在函数形参位置进行声明格式 = 在变量声明处声明格式
@@ -57,6 +61,7 @@ interface Item {
 	title: string;
 	completed: boolean;
 }
+const IDS: ReadonlyArray <string> = ['all', 'active', 'completed'];
 
 @Component({
 	components: {
@@ -72,28 +77,47 @@ interface Item {
 
 export default class Home extends Vue {
 	
-	private newTodoTitle = '';
+	private newTodoTitle: string = '';
 	private todos: Item[] = [];
 
-	private remaining = [];
+	private curTodos: Item[] = [];
+	private currentView: string = 'all';
 
-	// 计算属性
-	get todosInView() {
-		return this.todos;
+
+	// get 标识计算属性
+	// 全选状态
+	get checkedAll() {
+		return !!this.todos.length && this.todos.every((el) => el.completed);
+	}	
+	// 未完成任务
+	get remaining() {
+		return this.todos.filter((el) => !el.completed);
 	}
-	
+
+
+
 	@Emit()
 	protected createTodo() {
+
+		if( !this.newTodoTitle.trim() ){
+			return
+		}
 		
 		this.todos.push({
 			title: this.newTodoTitle,
 			completed: false,			
 		});
+		this.newTodoTitle = '';
 	}
 	
 	@Emit()
 	protected toggleAll() {
-		console.log('2222222');
+		
+		const state = this.checkedAll;
+
+		this.todos.forEach((el) => {
+			el.completed = !state;
+		});
 	}
 	
 	@Emit()
@@ -105,6 +129,52 @@ export default class Home extends Vue {
 	protected removeTodo(index: number) {		
 		this.todos.splice(index, 1);
 	}
+
+	@Emit()
+	protected clearCompleteds() {	
+		console.log('0000000');
+		
+	}	
+
+	@Emit()
+ 	private filterTodos(id: string) {
+
+		 switch (id) {
+			 case 'active':
+
+				this.curTodos = this.todos.filter((el) => !el.completed);
+				break;
+			 case 'completed':
+
+				this.curTodos = this.todos.filter((el) => el.completed);
+				break;
+
+			 default:
+
+				this.curTodos = this.todos;
+				break;
+		 }
+		
+
+	}	
+
+	// 监听变化
+	@Watch('$route', { immediate: true, deep: true })
+	private onRouteChange() {
+		
+		const id = this.$route.params.id;
+		
+		// 检查 id 是否正确
+		if ( !IDS.find((el) => el === id )) {
+			this.$router.push({
+				path: '/all',
+			});
+			return;
+		}
+	
+		this.currentView = id;
+		this.filterTodos(this.currentView);
+	}		
 
 }
 
@@ -119,6 +189,11 @@ export default class Home extends Vue {
 		position: relative;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);		
 		
+		.header{
+			position: relative;
+			line-height: 60px;
+		}
+
 		input::placeholder {
 			font-style: italic;
 			font-weight: 300;
@@ -173,27 +248,40 @@ export default class Home extends Vue {
 		.toggle-all {
 			text-align: center;
 			border: none;
+			outline: none;
+			width: 34px;
+			height: 60px;			
 			opacity: 0;
 			position: absolute;
+			position: absolute;
+			top: 0;
+			left: 0;			
 		}	
 
 		.toggle-all + label::before {
 			content: '❯';
 			font-size: 22px;
 			color: #e6e6e6;
-			padding: 10px 27px 10px 27px;
+			// padding: 10px 27px 10px 27px;
 		}
+		.toggle-all:checked + label::before {
 
+			color: #737373;
+		}
 		.toggle-all + label {
-			width: 60px;
+			width: 66px;
+			line-height: 34px;
 			height: 34px;
 			font-size: 0;
 			position: absolute;
-			top: -52px;
-			left: -13px;
+			top: 0;
+			left: 0;
 			-webkit-transform: rotate(90deg);
 			transform: rotate(90deg);
+			transform-origin: 17px 17px;
+			text-align: center;
 		}	
+
 
 		.todo-list {
 			margin: 0;
@@ -203,6 +291,7 @@ export default class Home extends Vue {
 			.todo-list li {
 				position: relative;
 				font-size: 24px;
+				// border-bottom: 1px solid #ededed;
 				border-bottom: 1px solid #ededed;
 			}			
 		}			
