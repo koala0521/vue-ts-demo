@@ -2,18 +2,18 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 18:03:00
- * @LastEditTime: 2020-11-26 11:38:48
+ * @LastEditTime: 2020-11-26 19:55:39
  * @LastEditors: Do not edit
- * @FilePath: /vue-ts-demo/src/components/Todo-item.vue
+ * @FilePath: /vue-ts-demo/src/components/Item.vue
 -->
 <template>
   <li :class="{ completed: todo.completed, editing: edit }">
     <div class="view">
-      <input class="toggle" type="checkbox" :checked="todo.completed" @change="toggleCheck" >
+      <input class="toggle" type="checkbox" :checked="todo.completed" @change="toggleCheck">
       <label @dblclick="dbclick" >{{todo.title}}</label>
       <button class="destroy" @click="$emit('removeSelf')"></button>
     </div>
-    <input ref="input" class="edit" :value="todo.title" @blur="blur" />
+    <input ref="input" class="edit" :value="todo.title" @blur="editTodo"  @keyup.enter="editTodo" />
   </li>
 </template>
 
@@ -30,21 +30,23 @@ export default {
   },
   methods: {
     dbclick() {
-        console.log(`11111 ` , this.$refs.input );
-        
+
         this.edit = true;
         this.$nextTick(function() {
             // DOM 现在更新了 
             this.$refs.input.focus();
         });         
     },
-    blur() {
-        console.log(`2222 ` , this.edit);
-        this.edit = false;      
+    editTodo(ev) {
+		this.edit = false;     
+
+		this.$nextTick(function() {
+			// DOM 现在更新了 
+			this.$refs.input.blur();
+		});    		
+		this.$emit('edit', ev.target.value);
     },
     toggleCheck(ev) {
-        // this.todo.completed = ev.target.checked;
-        // console.log( `______ ` , this.todo );
         this.$emit('toggleCompleted');
     },
     

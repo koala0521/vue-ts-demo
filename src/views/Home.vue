@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-26 18:14:03
+ * @LastEditTime: 2020-11-26 19:55:15
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/views/Home.vue
 -->
@@ -30,8 +30,9 @@
 				<template v-for="(todo, index) in curTodos">
 					<todo-item
 						:todo="todo"
-						@toggleCompleted="toggleCompleted( todo )"
+						@toggleCompleted="toggleCompleted(todo)"
 						@removeSelf="removeTodo(index)"
+						@edit="editTodo($event, todo)"
 					/>
 				</template>
 			</ul>
@@ -50,7 +51,6 @@
 </template>
 
 <script lang="ts">
-
 import { Component, Provide , Emit, Ref, Watch, Vue } from 'vue-property-decorator';
 import todoFooter from '@/components/Footer.vue'; // @ is an alias to /src
 import todoItem from '@/components/Item.vue'; // @ is an alias to /src
@@ -94,13 +94,11 @@ export default class Home extends Vue {
 		return this.todos.filter((el) => !el.completed);
 	}
 
-
-
 	@Emit()
 	protected createTodo() {
 
-		if( !this.newTodoTitle.trim() ){
-			return
+		if ( !this.newTodoTitle.trim() ) {
+			return;
 		}
 		
 		this.todos.push({
@@ -126,36 +124,39 @@ export default class Home extends Vue {
 	}
 
 	@Emit()
+	protected editTodo( val: string, todo: Item) {
+		todo.title = val;
+	}
+	
+	@Emit()	// 删除任务
 	protected removeTodo(index: number) {		
 		this.todos.splice(index, 1);
 	}
 
-	@Emit()
+	@Emit() // 清除已完成
 	protected clearCompleteds() {	
-		console.log('0000000');
-		
+		this.todos = this.todos.filter((el) => !el.completed );
+		this.filterTodos(this.currentView);
 	}	
 
 	@Emit()
  	private filterTodos(id: string) {
 
-		 switch (id) {
-			 case 'active':
+		switch (id) {
+			case 'active':
 
-				this.curTodos = this.todos.filter((el) => !el.completed);
-				break;
-			 case 'completed':
+			this.curTodos = this.todos.filter((el) => !el.completed);
+			break;
+			case 'completed':
 
-				this.curTodos = this.todos.filter((el) => el.completed);
-				break;
+			this.curTodos = this.todos.filter((el) => el.completed);
+			break;
 
-			 default:
+			default:
 
-				this.curTodos = this.todos;
-				break;
-		 }
-		
-
+			this.curTodos = this.todos;
+			break;
+		}
 	}	
 
 	// 监听变化
@@ -177,7 +178,6 @@ export default class Home extends Vue {
 	}		
 
 }
-
 </script>
 
 <style lang="scss">
