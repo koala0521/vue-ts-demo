@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 18:03:00
- * @LastEditTime: 2020-11-26 19:55:39
+ * @LastEditTime: 2020-11-26 20:05:38
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/components/Item.vue
 -->
@@ -55,6 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 
     .todo-list li {
         position: relative;
@@ -157,23 +158,5 @@ export default {
         padding: 12px 16px;
         margin: 0 0 0 43px;
     }    
-	.new-todo, .edit {
-		position: relative;
-		margin: 0;
-		width: 100%;
-		font-size: 24px;
-		font-family: inherit;
-		font-weight: inherit;
-		line-height: 1.4em;
-		border: 0;
-		color: inherit;
-		padding: 6px;
-		border: 1px solid #999;
-		box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-		box-sizing: border-box;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}	
-
 
 </style>
