@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-27 18:04:45
+ * @LastEditTime: 2020-11-27 18:49:48
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/router.ts
  */
@@ -23,9 +23,8 @@ export default new Router({
 			component: Todo,
 		},
 		{
-			path: '*',
-			name: 'todo',
-			component: Todo,
+			path: '/',
+			redirect: '/all'
 		},
 	],
 })
