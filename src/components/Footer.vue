@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-26 16:52:52
+ * @LastEditTime: 2020-11-27 17:02:03
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/components/Footer.vue
 -->
@@ -24,5 +24,5 @@
 
 export default {
 	props: ['itemsLeft', 'currentView'],
-};
+}
 </script>
