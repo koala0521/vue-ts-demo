@@ -2,15 +2,15 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-26 20:08:45
+ * @LastEditTime: 2020-11-30 11:07:45
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/router.ts
  */
-import Vue from 'vue';
-import Router from 'vue-router';
-import Todo from './views/Todo.vue';
+import Vue from 'vue'
+import Router from 'vue-router'
+import Todo from './views/Todo.vue'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
 	mode: 'history',
@@ -22,5 +22,9 @@ export default new Router({
 			name: 'todo',
 			component: Todo,
 		},
+		{
+			path: '/',
+			redirect: '/all',
+		},
 	],
-});
+})

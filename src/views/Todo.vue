@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-26 20:08:11
+ * @LastEditTime: 2020-11-30 11:08:44
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/views/Todo.vue
 -->
@@ -51,17 +51,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Provide , Emit, Ref, Watch, Vue } from 'vue-property-decorator';
-import todoFooter from '@/components/Footer.vue'; // @ is an alias to /src
-import todoItem from '@/components/Item.vue'; // @ is an alias to /src
+import { Component, Provide , Emit, Ref, Watch, Vue } from 'vue-property-decorator'
+import todoFooter from '@/components/Footer.vue' // @ is an alias to /src
+import todoItem from '@/components/Item.vue' // @ is an alias to /src
 
 
 // interface 声明数据格式 = 在函数形参位置进行声明格式 = 在变量声明处声明格式
 interface Item {
-	title: string;
-	completed: boolean;
+	title: string
+	completed: boolean
 }
-const IDS: ReadonlyArray <string> = ['all', 'active', 'completed'];
+const IDS: ReadonlyArray <string> = ['all', 'active', 'completed']
 
 @Component({
 	components: {
@@ -77,66 +77,66 @@ const IDS: ReadonlyArray <string> = ['all', 'active', 'completed'];
 
 export default class Home extends Vue {
 	
-	private newTodoTitle: string = '';
-	private todos: Item[] = [];
+	private newTodoTitle: string = ''
+	private todos: Item[] = []
 
-	private curTodos: Item[] = [];
-	private currentView: string = 'all';
+	private curTodos: Item[] = []
+	private currentView: string = 'all'
 
 
 	// get 标识计算属性
 	// 全选状态
 	get checkedAll() {
-		return !!this.todos.length && this.todos.every((el) => el.completed);
+		return !!this.todos.length && this.todos.every((el) => el.completed)
 	}	
 	// 未完成任务
 	get remaining() {
-		return this.todos.filter((el) => !el.completed);
+		return this.todos.filter((el) => !el.completed)
 	}
 
 	@Emit()
 	protected createTodo() {
 
 		if ( !this.newTodoTitle.trim() ) {
-			return;
+			return
 		}
 		
 		this.todos.push({
 			title: this.newTodoTitle,
 			completed: false,			
-		});
-		this.newTodoTitle = '';
+		})
+		this.newTodoTitle = ''
 	}
 	
 	@Emit()
 	protected toggleAll() {
 		
-		const state = this.checkedAll;
+		const state = this.checkedAll
 
 		this.todos.forEach((el) => {
-			el.completed = !state;
-		});
+			el.completed = !state
+		})
 	}
 	
 	@Emit()
 	protected toggleCompleted(todo: Item) {
-		todo.completed = !todo.completed;
+		todo.completed = !todo.completed
 	}
 
 	@Emit()
 	protected editTodo( val: string, todo: Item) {
-		todo.title = val;
+		todo.title = val
 	}
 	
 	@Emit()	// 删除任务
 	protected removeTodo(index: number) {		
-		this.todos.splice(index, 1);
+		this.todos.splice(index, 1)
 	}
 
 	@Emit() // 清除已完成
 	protected clearCompleteds() {	
-		this.todos = this.todos.filter((el) => !el.completed );
-		this.filterTodos(this.currentView);
+		this.todos = this.todos.filter((el) => !el.completed )
+		this.filterTodos(this.currentView)
 	}	
 
 	@Emit()
@@ -145,17 +145,17 @@ export default class Home extends Vue {
 		switch (id) {
 			case 'active':
 
-			this.curTodos = this.todos.filter((el) => !el.completed);
-			break;
+			this.curTodos = this.todos.filter((el) => !el.completed)
+			break
 			case 'completed':
 
-			this.curTodos = this.todos.filter((el) => el.completed);
-			break;
+			this.curTodos = this.todos.filter((el) => el.completed)
+			break
 
 			default:
 
-			this.curTodos = this.todos;
-			break;
+			this.curTodos = this.todos
+			break
 		}
 	}	
 
@@ -163,18 +163,18 @@ export default class Home extends Vue {
 	@Watch('$route', { immediate: true, deep: true })
 	private onRouteChange() {
 		
-		const id = this.$route.params.id;
+		const id = this.$route.params.id
 		
 		// 检查 id 是否正确
 		if ( !IDS.find((el) => el === id )) {
 			this.$router.push({
 				path: '/all',
-			});
-			return;
+			})
+			return
 		}
 	
-		this.currentView = id;
-		this.filterTodos(this.currentView);
+		this.currentView = id
+		this.filterTodos(this.currentView)
 	}		
 
 }
