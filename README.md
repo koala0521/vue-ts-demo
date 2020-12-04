@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:39:42
- * @LastEditTime: 2020-12-03 19:35:31
+ * @LastEditTime: 2020-12-04 18:57:54
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/README.md
 -->
@@ -39,4 +39,11 @@ yarn run lint
     https://www.cnblogs.com/yalong/p/11714393.html
 
     https://vue-test-utils.vuejs.org/zh/guides/#%E8%B5%B7%E6%AD%A5
+
+
+
+### ts 参考
+    https://github.com/kaorun343/vue-property-decorator#readme
+    https://blog.csdn.net/sllailcp/article/details/102542796/
+    https://www.jianshu.com/p/2b409dfc8f75
     
