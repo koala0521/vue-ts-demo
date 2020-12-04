@@ -26,7 +26,7 @@ export default class Item extends Vue {
 
 	//   @Prop(Object) readonly todo!: object
 
-	@Prop({ default: {title: '', complleted: false} }) readonly todo!: object
+	@Prop({ default: {title: '', complleted: false} }) private readonly todo!: object
 
 	// 相当于 data内部定义的变量
 	private edit: boolean = false

@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-12-04 18:36:10
+ * @LastEditTime: 2020-12-04 18:54:25
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/components/Footer.vue
 -->
@@ -23,11 +23,10 @@
 <script lang="ts" >
 import { Component, Provide , Emit, Prop, Ref, Vue } from 'vue-property-decorator'
 
-
 @Component
 export default class Footer extends Vue {
   // props: ['itemsLeft', 'currentView'],
-  @Prop({default: 0}) readonly itemsLeft: Number | undefined
-  @Prop({default: 'all'})  readonly currentView: String | undefined
+  @Prop({default: 0}) private readonly itemsLeft: number | undefined
+  @Prop({default: 'all'}) private readonly currentView: string | undefined
 }
 </script>
