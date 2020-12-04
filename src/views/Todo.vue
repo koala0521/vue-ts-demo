@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-27 18:47:36
+ * @LastEditTime: 2020-12-01 10:32:29
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/views/Todo.vue
 -->
@@ -179,4 +179,10 @@ export default class Home extends Vue {
 }
 </script>
 
+<style lang="postcss" scoped>
 
+	.header{
+		height: 66px;
+	}
+
+</style>

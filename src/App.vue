@@ -2,16 +2,12 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-25 17:06:11
+ * @LastEditTime: 2020-11-30 17:54:41
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/App.vue
 -->
 <template>
 	<div id="app">
-		<!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
 		<router-view />
 	</div>
 </template>
@@ -49,3 +45,13 @@ body {
 	}
 }
 </style>
+
+
+<script>
+
+//  import "@/assets/rem.js"
+
+export default {
+	
+}
+</script>

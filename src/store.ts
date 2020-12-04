@@ -2,17 +2,16 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-27 18:46:21
+ * @LastEditTime: 2020-11-30 12:32:10
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/store.ts
  */
 import Vue from 'vue'
-import Vuex, { ActionContext, ActionTree, MutationTree} from 'vuex'
+import Vuex, { ActionContext, ActionTree, MutationTree } from 'vuex'
 
 Vue.use(Vuex)
 
-
-// interface 声明数据格式 
+// interface 声明数据格式
 interface Item {
 	title: string
 	completed: boolean
@@ -51,7 +50,7 @@ const mutations: MutationTree<State> | undefined = {
 		states.todos[payload].completed = !states.todos[payload].completed
 	},
 
-	editTodo(states: State, payload: { index: number, newVal: string }) {
+	editTodo(states: State, payload: { index: number; newVal: string }) {
 		states.todos[payload.index].title = payload.newVal
 	},
 
@@ -67,11 +66,12 @@ const mutations: MutationTree<State> | undefined = {
 	},
 }
 
+
 const actions: ActionTree<any, State> = {
-	doCreate(ctx: ActionContext<any, State>, payload: string) {
+	doCreate(ctx: any, payload: string) {
 		ctx.commit('createTodo', payload)
 	},
-	doToggleAll(ctx: ActionContext<any, State>, payload: boolean) {
+	doToggleAll(ctx: any, payload: boolean) {
 		ctx.commit('toggleAll', payload)
 	},
 	doToggleCompleted(ctx: ActionContext<any, State>, payload: number) {
@@ -79,7 +79,7 @@ const actions: ActionTree<any, State> = {
 	},
 	doEditTodo(
 		ctx: ActionContext<any, State>,
-		payload: { index: number, newVal: string },
+		payload: { index: number; newVal: string }
 	) {
 		ctx.commit('editTodo', payload)
 	},
