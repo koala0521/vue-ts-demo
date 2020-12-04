@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 11:37:58
- * @LastEditTime: 2020-11-27 17:02:03
+ * @LastEditTime: 2020-12-04 18:36:10
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/components/Footer.vue
 -->
@@ -13,16 +13,21 @@
       </span>
       <ul class="filters">
         <li><router-link to="/all" :class="{ selected: currentView == 'all'}">All</router-link></li>
-        <li><router-link to="/active" :class="{ selected: currentView == 'active'}">Active</router-link></li>
+        <li><router-link name="active" to="/active" :class="{ selected: currentView == 'active'}">Active</router-link></li>
         <li><router-link to="/completed" :class="{ selected: currentView == 'completed'}">Completed</router-link></li>
       </ul>
       <button class="clear-completed" @click="$emit('clearCompleted')" >Clear completed</button>
     </footer>
 </template>
 
-<script>
+<script lang="ts" >
+import { Component, Provide , Emit, Prop, Ref, Vue } from 'vue-property-decorator'
 
-export default {
-	props: ['itemsLeft', 'currentView'],
+
+@Component
+export default class Footer extends Vue {
+  // props: ['itemsLeft', 'currentView'],
+  @Prop({default: 0}) readonly itemsLeft: Number | undefined
+  @Prop({default: 'all'})  readonly currentView: String | undefined
 }
 </script>

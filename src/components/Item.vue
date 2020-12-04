@@ -2,7 +2,7 @@
  * @Author: XueBaBa
  * @Description: 文件描述~
  * @Date: 2020-11-25 18:03:00
- * @LastEditTime: 2020-11-27 11:29:01
+ * @LastEditTime: 2020-12-04 18:37:09
  * @LastEditors: Do not edit
  * @FilePath: /vue-ts-demo/src/components/Item.vue
 -->
@@ -22,12 +22,11 @@ import { Component, Provide , Emit, Prop, Ref, Vue } from 'vue-property-decorato
 
 
 @Component
-
 export default class Item extends Vue {
 
 	//   @Prop(Object) readonly todo!: object
 
-	@Prop({ default: {title: '', complleted: false} }) private readonly todo!: object
+	@Prop({ default: {title: '', complleted: false} }) readonly todo!: object
 
 	// 相当于 data内部定义的变量
 	private edit: boolean = false

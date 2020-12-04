@@ -18,6 +18,15 @@
     "no-trailing-whitespace": false,
     "no-console": false,
     "curly": [true, "ignore-same-line"],
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+      "trailing-comma": [false, {  
+          "multiline": {
+              "objects": "ignore",
+              "arrays": "never",
+              "functions": "never",
+              "typeLiterals": "ignore"
+          },
+          "esSpecCompliant": true  
+      }]    
   }
 }
